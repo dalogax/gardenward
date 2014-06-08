@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Garden Ward</title>
+		<script src="Chart.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+		<meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
+        <style>
+            body {
+                font-family: 'Crimson Text', serif;
+                background-image: url("tree_bark.png");
+            }
+        </style>
+        
+	</head>
+	<body>
+        <h1>Garden Ward</h1>
+        <input type="file" id="fileinput" /></br>
+        <h3>Collected Data</h3>
+        <p><div style="color: rgba(145,78,5,1);"><b>Humidity</b></div>
+        <div style="color: rgba(190,233,14,1);"><b>Light</b></div>
+        <div style="color: rgba(134,111,134,1);"><b>Temperature</b></div></p>
+        <div height="500" width="500" style="overflow: scroll;"><canvas id="canvas" height="450" width="600"></canvas></div></br>
+        <h3>Averages</h3>
+        <canvas id="canvas2" height="200" width="300"></canvas>
+	<script>
+         var labels = [];
+         var data1 = [];
+         var data2 = [];
+         var data3 = [];
+         var avgData = [0,0,0];
+         function parseFile(contents) {
+            var lines = contents.split('\n');
+            for(var i = 0;i < lines.length;i++){
+                var linesplit = lines[i].split(' ');
+                labels[i] = linesplit[0] + linesplit[1];
+                data1[i] = linesplit[2];
+                avgData[0] += parseInt(linesplit[2]);
+                data2[i] = linesplit[3];
+                avgData[1] += parseInt(linesplit[3]);
+                data3[i] = linesplit[4];
+                avgData[2] += parseInt(linesplit[4]);
+            }
+            avgData[0] = avgData[0] / lines.length; 
+            avgData[1] = avgData[1] / lines.length; 
+            avgData[2] = avgData[2] / lines.length; 
+            document.getElementById("canvas").width = (lines.length *40);
+            var lineChartData = {
+                labels : labels,
+                datasets : [
+                    {
+                        fillColor : "rgba(220,220,220,0.5)",
+                        strokeColor : "rgba(220,220,220,1)",
+                        pointColor : "rgba(145,78,5,1)",
+                        pointStrokeColor : "#fff",
+                        data : data1
+                    },
+                    {
+                        fillColor : "rgba(151,187,205,0.5)",
+                        strokeColor : "rgba(151,187,205,1)",
+                        pointColor : "rgba(190,233,14,1)",
+                        pointStrokeColor : "#fff",
+                        data : data2
+                    },
+                    {
+                        fillColor : "rgba(151,187,205,0.5)",
+                        strokeColor : "rgba(151,187,205,1)",
+                        pointColor : "rgba(134,111,134,1)",
+                        pointStrokeColor : "#fff",
+                        data : data3
+                    }
+                ]
+            }
+            var barData = {
+                labels : ["Humidity","Light","Temerature"],
+                datasets : [
+                    {
+                        fillColor : "rgba(151,187,205,0.5)",
+                        strokeColor : "rgba(151,187,205,1)",
+                        data : avgData
+                    }
+                ]
+            }
+	        var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+            var myBar = new Chart(document.getElementById("canvas2").getContext("2d")).Bar(barData);
+         }
+        
+         function readSingleFile(evt) {
+            var f = evt.target.files[0]; 
+
+            if (f) {
+              var r = new FileReader();
+              r.onload = function(e) { 
+                  var contents = e.target.result; 
+                  parseFile(contents);
+              }
+              r.readAsText(f);
+            } else { 
+              alert("Failed to load file");
+            }
+        }
+
+        document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+
+        
+
+	
+	</script>
+	</body>
+</html>

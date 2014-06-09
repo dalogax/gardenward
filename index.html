@@ -4,25 +4,63 @@
 		<title>Garden Ward</title>
 		<script src="Chart.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
         <style>
             body {
                 font-family: 'Crimson Text', serif;
                 background-image: url("tree_bark.png");
             }
+
+ 
+            .button4 {
+
+                font-family: Verdana, Geneva, sans-serif;
+                font-size: 24px;
+                color: #FFF;
+                padding: 5px 50px 5px 50px;
+                border: 1px solid #999;
+
+                text-shadow: 0px 1px 1px #666;
+                text-decoration: none;
+
+                -moz-box-shadow: 0 1px 3px #111;
+                -webkit-box-shadow: 0 1px 3px #111;
+                box-shadow: 0 1px 3px #111;
+
+                border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+
+                background: #64a724;
+                background: -moz-linear-gradient(top, #64a724 0%, #579727 50%, #58982a 51%, #498c25 100%);
+                background: -webkit-gradient(linear, left top, left bottom, from(#64a724), to(#498c25), color-stop(0.4, #579727), color-                    stop(0.5, #58982a), color-stop(.9, #498c25), color-stop(0.9, #498c25));
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64a724', endColorstr='#498c25', GradientType=0 );
+
+                cursor: pointer;
+
+            }
+            .button4:hover {
+                border: 1px solid #FFF;
+            }
+ 
         </style>
         
 	</head>
 	<body>
+        <div style="text-align:center">
         <h1>Garden Ward</h1>
         <input type="file" id="fileinput" /></br>
+        <input type="submit" name="submit1" value="Search for plants" class="button4" onclick="searchPlants()" />
+        </div>
         <h3>Collected Data</h3>
-        <p><div style="color: rgba(145,78,5,1);"><b>Humidity</b></div>
-        <div style="color: rgba(190,233,14,1);"><b>Light</b></div>
-        <div style="color: rgba(134,111,134,1);"><b>Temperature</b></div></p>
-        <div height="500" width="500" style="overflow: scroll;"><canvas id="canvas" height="450" width="600"></canvas></div></br>
+        <p><div style="color: rgba(145,78,5,1);"><b>Light</b></div>
+        <div style="color: rgba(190,233,14,1);"><b>Temperature</b></div>
+        <div style="color: rgba(134,111,134,1);"><b>Humidity</b></div></p>
+        <div height="500" width="500" style="overflow: scroll;"><canvas id="canvas" height="450" width="600"></canvas></div>
         <h3>Averages</h3>
         <canvas id="canvas2" height="200" width="300"></canvas>
+        <div id="ajaxData"></div>
 	<script>
          var labels = [];
          var data1 = [];
@@ -72,7 +110,7 @@
                 ]
             }
             var barData = {
-                labels : ["Humidity","Light","Temerature"],
+                labels : ["Light","Temerature","Humidity"],
                 datasets : [
                     {
                         fillColor : "rgba(151,187,205,0.5)",
@@ -102,7 +140,10 @@
 
         document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
 
-        
+        function searchPlants(){
+            window.open("http://rhs.org.uk/Plants/Search-Results?form-mode=true&context=l%3Den%26q%3D%2523all%26sl%3DplantForm%26r%3Df%252Fplant_sunlight%252Ffull%2Bsun%26r%3Df%252Fplant_exposure%252Fexposed%26r%3Df%252Fplant_moisture%252Fpoorly-drained");        
+            
+        }
 
 	
 	</script>
